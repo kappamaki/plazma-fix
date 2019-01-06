@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script src="js/scripts.js"
+updateTimer = 0;
+startTime = new Date().getTime();
+
+function fixInline() {
+	repositionComponents();
+	updateTimer = setInterval(drawInline, 10);
+}
+
+function drawInline() {
+	draw(document.getElementById("canvas"));
+}
+
+function draw(cvs) {
+
+	var ctx = cvs.getContext("2d");
+	
+	var blockSize = 64;
+	var imageData = ctx.createImageData(blockSize, blockSize);
+	for (var i=0; i<blockSize*blockSize; i++) {
+		var p = i*4;
+		imageData.data[p+0] = Math.random() >= 0.5 ? 255 : 0;
+		imageData.data[p+1] = Math.random() >= 0.5 ? 255 : 0;
+		imageData.data[p+2] = Math.random() >= 0.5 ? 255 : 0;
+		imageData.data[p+3] = 255;
+	}
+	
+	for (var y=0; y<cvs.height; y+=blockSize) { 
+		for (var x=0; x<cvs.width; x+=blockSize) { 
+			ctx.putImageData(imageData, x, y);
+		}
+	}
+}
+  </script>
+</head>
+
+<body>
+ <canvas id="canvas">
+</body>
+</html>

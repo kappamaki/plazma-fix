@@ -1,24 +1,22 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <script src="js/scripts.js"
-updateTimer = 0;
-startTime = new Date().getTime();
+<body style="margin: 0">
+ <canvas id="canvas">
+</body>
+<script>
+const startTime = new Date().getTime();
+const canvas = document.getElementById("canvas");
+const drawIntervalMs = 10;
 
-function fixInline() {
-	repositionComponents();
-	updateTimer = setInterval(drawInline, 10);
-}
+const resizeObserver = new ResizeObserver(() => {
+  canvas.width = Math.round(window.innerWidth * devicePixelRatio);
+  canvas.height = Math.round(window.innerWidth * devicePixelRatio);
+});
 
-function drawInline() {
-	draw(document.getElementById("canvas"));
-}
-
-function draw(cvs) {
-
-	var ctx = cvs.getContext("2d");
+function draw() {
+	var ctx = canvas.getContext("2d");
 	
-	var blockSize = 64;
+	var blockSize = 1024;
 	var imageData = ctx.createImageData(blockSize, blockSize);
 	for (var i=0; i<blockSize*blockSize; i++) {
 		var p = i*4;
@@ -28,16 +26,14 @@ function draw(cvs) {
 		imageData.data[p+3] = 255;
 	}
 	
-	for (var y=0; y<cvs.height; y+=blockSize) { 
-		for (var x=0; x<cvs.width; x+=blockSize) { 
+	for (var y=0; y<canvas.height; y+=blockSize) { 
+		for (var x=0; x<canvas.width; x+=blockSize) { 
 			ctx.putImageData(imageData, x, y);
 		}
 	}
 }
-  </script>
-</head>
 
-<body>
- <canvas id="canvas">
-</body>
+resizeObserver.observe(canvas);
+updateTimer = setInterval(draw, drawIntervalMs);
+</script>
 </html>

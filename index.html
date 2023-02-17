@@ -10,12 +10,11 @@ const drawIntervalMs = 10;
 
 const resizeObserver = new ResizeObserver(() => {
   canvas.width = Math.round(window.innerWidth * devicePixelRatio);
-  canvas.height = Math.round(window.innerWidth * devicePixelRatio);
+  canvas.height = Math.round(window.innerHeight * devicePixelRatio);
 });
 
 function draw() {
 	var ctx = canvas.getContext("2d");
-	
 	var blockSize = 1024;
 	var imageData = ctx.createImageData(blockSize, blockSize);
 	for (var i=0; i<blockSize*blockSize; i++) {
